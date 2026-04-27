@@ -64,6 +64,13 @@ with col2:
     budget = st.slider("💰 Budget (₹)", 500, 10000, 3000)
 
 product = st.text_input("🔍 What are you looking for?", "shoes")
+products = [
+    {"name": "Casual Shirt", "price": 1200, "category": "fashion"},
+    {"name": "Formal Shirt", "price": 2500, "category": "fashion"},
+    {"name": "Nike Sneakers", "price": 2800, "category": "fashion"},
+    {"name": "Gaming Headset", "price": 1999, "category": "gamer"},
+    {"name": "Laptop Stand", "price": 1500, "category": "student"},
+]
 
 # ------------------ GENERATE DEAL ------------------
 if st.button("🚀 Generate Smart Deal"):
@@ -74,18 +81,29 @@ if st.button("🚀 Generate Smart Deal"):
     insight = ""
 
     # Deal logic
-    if "shoes" in product.lower():
-        deal = "👟 Sports Shoes"
-        price = "₹2,499"
-    elif "gaming" in product.lower():
-        deal = "🎧 Gaming Headset"
-        price = "₹1,999"
-    elif "fashion" in product.lower():
-        deal = "🧥 Trendy Jacket"
-        price = "₹2,799"
-    else:
-        deal = "📦 Smart Gadget"
-        price = "₹2,199"
+    products = [
+    {"name": "Casual Shirt", "price": 1200, "keywords": ["shirt", "fashion"]},
+    {"name": "Formal Shirt", "price": 2500, "keywords": ["shirt", "fashion"]},
+    {"name": "Sports Shoes", "price": 2499, "keywords": ["shoes", "fashion"]},
+    {"name": "Gaming Headset", "price": 1999, "keywords": ["gaming", "gamer"]},
+    {"name": "Smart Gadget", "price": 2199, "keywords": ["gadget", "tech"]},
+]
+
+results = []
+
+for p in products:
+    if p["price"] <= budget:
+        for k in p["keywords"]:
+            if k in product.lower():
+                results.append(p)
+
+if results:
+    selected = results[0]
+    deal = f"🔥 {selected['name']}"
+    price = f"₹{selected['price']}"
+else:
+    deal = "❌ No matching product found"
+    price = ""
 
     # Marketing content
     marketing = f"""
@@ -172,3 +190,4 @@ This app simulates **AI-driven personalization engines** used by platforms like 
 ✔ Dynamic marketing content generation  
 ✔ Conversion-focused recommendations  
 """)
+
